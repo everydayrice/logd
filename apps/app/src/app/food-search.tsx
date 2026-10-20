@@ -38,7 +38,7 @@ export default function FoodSearchScreen() {
           renderItem={({ item }) => (
             <Pressable onPress={() => router.push({ pathname: "/food/[id]", params: { id: item.id } })}
               style={[common.card, { marginBottom: 10, padding: 17 }]}>
-              <Text style={{ color: palette.primary, fontSize: 17, fontWeight: "750" }}>{item.name}</Text>
+              <Text style={{ color: palette.primary, fontSize: 17, fontWeight: "700" }}>{item.name}</Text>
               <Text style={{ color: palette.muted, marginTop: 6, fontSize: 13 }}>
                 {Math.round(item.nutritionPer100g.calories)} cal / 100g · {item.brand || (item.source === "official" ? "Official" : "Community")}
               </Text>
