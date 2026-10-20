@@ -14,17 +14,12 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm run typecheck
       - run: npm run api:check
-      - name: Generate Drizzle migration (dry run)
+      - name: Verify Drizzle migrations are committed
         env:
           DATABASE_URL: postgresql://placeholder:placeholder@localhost:5432/neondb
         run: |
           npm run db:generate
-          echo '===== LOGD GENERATED SQL BEGIN ====='
-          find packages/db/drizzle -maxdepth 1 -name '*.sql' -exec cat {} \;
-          echo '===== LOGD GENERATED SQL END ====='
-          echo '===== LOGD MIGRATION JOURNAL BEGIN ====='
-          cat packages/db/drizzle/meta/_journal.json
-          echo '===== LOGD MIGRATION JOURNAL END ====='
-          echo '===== LOGD MIGRATION SNAPSHOT BEGIN ====='
-          cat packages/db/drizzle/meta/0000_snapshot.json
-          echo '===== LOGD MIGRATION SNAPSHOT END ====='
+          if [ -n "$(git status --porcelain -- packages/db/drizzle)" ]; then
+            echo "Drizzle schema has uncommitted migrations."
+            exit 1
+          fi
