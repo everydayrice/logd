@@ -14,3 +14,11 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm run typecheck
       - run: npm run api:check
+      - name: Generate Drizzle migration (dry run)
+        env:
+          DATABASE_URL: postgresql://placeholder:placeholder@localhost:5432/neondb
+        run: |
+          npm run db:generate
+          echo '===== LOGD GENERATED SQL BEGIN ====='
+          find packages/db/drizzle -maxdepth 1 -name '*.sql' -exec cat {} \;
+          echo '===== LOGD GENERATED SQL END ====='
