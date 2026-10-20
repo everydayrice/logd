@@ -18,7 +18,7 @@ api.use("*", cors({
     const allowed = [
       "http://localhost:8081",
       "http://localhost:19006",
-      ...(c.env.ALLOWED_WEB_ORIGINS ?? "").split(",").map(x => x.trim()).filter(Boolean),
+      ...(c.env.ALLOWED_WEB_ORIGINS ?? "").split(",").map((x: string) => x.trim()).filter(Boolean),
     ];
     return allowed.includes(origin) ? origin : "";
   },

@@ -23,7 +23,13 @@
     "react-native-web": "~0.21.0",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "~4.26.0",
-    "react-native-gesture-handler": "~2.32.0"
+    "react-native-gesture-handler": "~2.32.0",
+    "@better-auth/expo": "^1.7.9",
+    "better-auth": "^1.7.9",
+    "@logd/db": "0.1.0",
+    "expo-secure-store": "~57.0.4",
+    "expo-network": "~57.0.2",
+    "expo-web-browser": "~57.0.3"
   },
   "devDependencies": {
     "@types/react": "~19.2.2",

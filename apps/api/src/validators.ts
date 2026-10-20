@@ -6,7 +6,7 @@ const boundedNumber = z.number().finite().min(0).max(100000);
 
 export const nutritionSchema: z.ZodType<NutritionFacts> = z.object(
   Object.fromEntries(NUTRITION_KEYS.map((key) => [key, boundedNumber])),
-) as z.ZodType<NutritionFacts>;
+) as unknown as z.ZodType<NutritionFacts>;
 
 export const newFoodSchema = z.object({
   name: z.string().trim().min(1).max(140),

@@ -1,56 +1,59 @@
-import { Link } from "expo-router";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Link, useRouter } from "expo-router";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { authClient } from "../lib/auth-client";
+import { common, palette } from "../ui/styles";
 
 export default function HomeScreen() {
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.header}>
-          <Text style={styles.wordmark}>LOGD</Text>
-          <Text style={styles.subheading}>Nutrition, without the friction.</Text>
+    <SafeAreaView style={common.screen}>
+      <ScrollView contentContainerStyle={[common.content, { flexGrow: 1 }]}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+          <Text style={common.wordmark}>LOGD</Text>
+          <Pressable onPress={() => router.push(session?.user ? "/diary" : "/account")} accessibilityRole="button">
+            <Text style={{ color: palette.soft, fontWeight: "700" }}>
+              {session?.user ? "MY DIARY  →" : "SIGN IN  →"}
+            </Text>
+          </Pressable>
         </View>
 
-        <View style={styles.hero}>
-          <Text style={styles.eyebrow}>YOUR DAILY LOG</Text>
-          <Text style={styles.heading}>Know what you eat.</Text>
-          <Text style={styles.description}>
-            Start with a photo. LOGD is being built to turn meals into an accurate, editable food diary.
+        <View style={{ marginTop: 100, marginBottom: 36 }}>
+          <Text style={[common.label, { marginBottom: 17 }]}>THE FUTURE OF FOOD LOGGING</Text>
+          <Text style={[common.title, { fontSize: 53, lineHeight: 57, letterSpacing: -2.8 }]}>
+            Eat life.{"\n"}LOGD it.
+          </Text>
+          <Text style={[common.body, { marginTop: 20, maxWidth: 330 }]}>
+            Snap your meal, review the estimates, and log every detail. No guesswork hidden behind a pretty chart.
           </Text>
         </View>
 
         <Link href="/scan" asChild>
-          <Pressable style={styles.primaryButton} accessibilityRole="button">
-            <Text style={styles.primaryButtonText}>+  Add a meal photo</Text>
-          </Pressable>
-        </Link>
-        <Link href="/diary" asChild>
-          <Pressable style={styles.secondaryButton} accessibilityRole="button">
-            <Text style={styles.secondaryButtonText}>View food diary</Text>
+          <Pressable style={common.primaryButton} accessibilityRole="button">
+            <Text style={common.primaryText}>+  Snap a meal</Text>
           </Pressable>
         </Link>
 
-        <Text style={styles.footer}>
-          Early build: photo selection is available. AI analysis, nutrition and syncing are being connected next.
+        <Link href="/manual" asChild>
+          <Pressable style={[common.secondaryButton, { marginTop: 12 }]} accessibilityRole="button">
+            <Text style={common.secondaryText}>Log manually</Text>
+          </Pressable>
+        </Link>
+
+        <Link href="/diary" asChild>
+          <Pressable style={{ marginTop: 28, paddingVertical: 10 }} accessibilityRole="button">
+            <Text style={{ color: palette.muted, fontSize: 14, fontWeight: "700", textAlign: "center" }}>
+              View my food diary   →
+            </Text>
+          </Pressable>
+        </Link>
+        <View style={{ flex: 1 }} />
+        <Text style={{ color: "#6F6F6F", fontSize: 12, lineHeight: 19, marginTop: 40 }}>
+          LOGD · Early development build
         </Text>
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: "#0B0B0B" },
-  content: { flexGrow: 1, paddingHorizontal: 24, paddingTop: 26, paddingBottom: 36 },
-  header: { marginBottom: 90 },
-  wordmark: { color: "#FFFFFF", fontSize: 29, fontWeight: "900", letterSpacing: -1.3 },
-  subheading: { color: "#969696", fontSize: 13, marginTop: 6 },
-  hero: { marginBottom: 34 },
-  eyebrow: { color: "#969696", fontSize: 11, fontWeight: "700", letterSpacing: 1.6, marginBottom: 16 },
-  heading: { color: "#FFFFFF", fontSize: 48, lineHeight: 54, fontWeight: "800", letterSpacing: -2.4, maxWidth: 340 },
-  description: { color: "#B7B7B7", fontSize: 16, lineHeight: 25, marginTop: 18, maxWidth: 370 },
-  primaryButton: { backgroundColor: "#F4F4F4", borderRadius: 16, padding: 19, alignItems: "center", marginBottom: 12 },
-  primaryButtonText: { color: "#0B0B0B", fontWeight: "800", fontSize: 16 },
-  secondaryButton: { borderColor: "#353535", borderWidth: 1, borderRadius: 16, padding: 19, alignItems: "center" },
-  secondaryButtonText: { color: "#FFFFFF", fontWeight: "700", fontSize: 16 },
-  footer: { color: "#777777", fontSize: 12, lineHeight: 19, marginTop: 30 },
-});

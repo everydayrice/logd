@@ -14,7 +14,8 @@
           "photosPermission": "Allow LOGD to select photos for food logging.",
           "cameraPermission": "Allow LOGD to take photos of meals."
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
