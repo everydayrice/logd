@@ -10,7 +10,13 @@
     "check": "wrangler deploy --dry-run --outdir .wrangler-verify"
   },
   "dependencies": {
-    "hono": "^4.10.0"
+    "hono": "^4.10.0",
+    "@logd/db": "0.1.0",
+    "@neondatabase/serverless": "^1.0.2",
+    "@better-auth/expo": "^1.7.9",
+    "better-auth": "^1.7.9",
+    "drizzle-orm": "^0.45.4",
+    "zod": "^4.1.0"
   },
   "devDependencies": {
     "wrangler": "^4.151.3",
