@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "LOGD",
+    "slug": "logd",
+    "scheme": "logd",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "plugins": [
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow LOGD to select photos for food logging.",
+          "cameraPermission": "Allow LOGD to take photos of meals."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "bundler": "metro",
+      "name": "LOGD",
+      "shortName": "LOGD"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "logd",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "npm run start -w @logd/app",
+    "web": "npm run web -w @logd/app",
+    "ios": "npm run ios -w @logd/app",
+    "android": "npm run android -w @logd/app",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "db:generate": "npm run db:generate -w @logd/db",
+    "db:migrate": "npm run db:migrate -w @logd/db"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}
