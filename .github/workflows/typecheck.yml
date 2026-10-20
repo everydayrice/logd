@@ -22,3 +22,9 @@ jobs:
           echo '===== LOGD GENERATED SQL BEGIN ====='
           find packages/db/drizzle -maxdepth 1 -name '*.sql' -exec cat {} \;
           echo '===== LOGD GENERATED SQL END ====='
+          echo '===== LOGD MIGRATION JOURNAL BEGIN ====='
+          cat packages/db/drizzle/meta/_journal.json
+          echo '===== LOGD MIGRATION JOURNAL END ====='
+          echo '===== LOGD MIGRATION SNAPSHOT BEGIN ====='
+          cat packages/db/drizzle/meta/0000_snapshot.json
+          echo '===== LOGD MIGRATION SNAPSHOT END ====='
