@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { authClient } from "../lib/auth-client";
@@ -10,6 +10,7 @@ const kinds: MealKind[] = ["breakfast", "lunch", "dinner", "snack"];
 
 export default function ManualScreen() {
   const router = useRouter();
+  const { remixFrom } = useLocalSearchParams<{ remixFrom?: string }>();
   const { data: session } = authClient.useSession();
   const [name, setName] = useState("");
   const [grams, setGrams] = useState("100");
@@ -20,6 +21,21 @@ export default function ManualScreen() {
   const [kind, setKind] = useState<MealKind>("lunch");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!remixFrom) return;
+    let active = true;
+    apiRequest<{ food: Food }>("/v1/foods/" + encodeURIComponent(remixFrom)).then(({ food }) => {
+      if (!active) return;
+      setName(food.name + " (My version)");
+      setCalories(String(food.nutritionPer100g.calories));
+      setProtein(String(food.nutritionPer100g.proteinG));
+      setCarbs(String(food.nutritionPer100g.totalCarbohydratesG));
+      setFat(String(food.nutritionPer100g.totalFatG));
+      setGrams(food.defaultServingGrams ?? "100");
+    }).catch(() => { if (active) setError("Unable to load the food to remix."); });
+    return () => { active = false; };
+  }, [remixFrom]);
 
   async function save() {
     const weight = Number(grams);
@@ -38,7 +54,8 @@ export default function ManualScreen() {
         totalFatG: Number(fat) || 0,
       };
       const result = await apiRequest<{ food: Food }>("/v1/foods", {
-        method: "POST", body: JSON.stringify({ name: name.trim(), nutritionPer100g: facts }),
+        method: "POST", body: JSON.stringify({ name: name.trim(), nutritionPer100g: facts,
+          ...(remixFrom ? { remixedFromFoodId: remixFrom } : {}) }),
       });
       await apiRequest("/v1/meals", {
         method: "POST",
@@ -61,7 +78,7 @@ export default function ManualScreen() {
   return (
     <SafeAreaView style={common.screen} edges={["bottom"]}>
       <ScrollView contentContainerStyle={[common.content, { gap: 19 }]} keyboardShouldPersistTaps="handled">
-        <Text style={common.title}>Build your log.</Text>
+        <Text style={common.title}>{remixFrom ? "Make it yours." : "Build your log."}</Text>
         <Text style={common.body}>Enter nutrition per 100g. LOGD calculates your portion automatically.</Text>
         {!session?.user ? (
           <Pressable style={common.primaryButton} onPress={() => router.push("/account")}>

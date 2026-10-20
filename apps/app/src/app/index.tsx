@@ -42,6 +42,12 @@ export default function HomeScreen() {
           </Pressable>
         </Link>
 
+        <Link href="/food-search" asChild>
+          <Pressable style={[common.secondaryButton, { marginTop: 12 }]} accessibilityRole="button">
+            <Text style={common.secondaryText}>Search foods</Text>
+          </Pressable>
+        </Link>
+
         <Link href="/diary" asChild>
           <Pressable style={{ marginTop: 28, paddingVertical: 10 }} accessibilityRole="button">
             <Text style={{ color: palette.muted, fontSize: 14, fontWeight: "700", textAlign: "center" }}>

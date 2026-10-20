@@ -14,6 +14,8 @@ export default function RootLayout() {
         <Stack.Screen name="account" options={{ title: "Your LOGD account" }} />
         <Stack.Screen name="scan" options={{ title: "Analyze a meal" }} />
         <Stack.Screen name="manual" options={{ title: "Log food manually" }} />
+        <Stack.Screen name="food-search" options={{ title: "Search foods" }} />
+        <Stack.Screen name="food/[id]" options={{ title: "Food details" }} />
         <Stack.Screen name="diary" options={{ title: "Food diary" }} />
       </Stack>
     </>
