@@ -11,6 +11,8 @@
     "web": "npm run web -w @logd/app",
     "ios": "npm run ios -w @logd/app",
     "android": "npm run android -w @logd/app",
+    "api:dev": "npm run dev -w @logd/api",
+    "api:check": "npm run check -w @logd/api",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "db:generate": "npm run db:generate -w @logd/db",
     "db:migrate": "npm run db:migrate -w @logd/db"
