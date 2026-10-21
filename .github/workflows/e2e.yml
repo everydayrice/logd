@@ -4,6 +4,8 @@ on:
     paths:
       - '.github/workflows/e2e.yml'
       - 'scripts/e2e.mjs'
+      - 'apps/api/**'
+      - 'packages/db/**'
   workflow_dispatch:
 jobs:
   exercise-api:

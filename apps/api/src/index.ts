@@ -6,7 +6,7 @@ import { foods, foodReports, mealItems, meals, user, type NutritionFacts } from 
 import { multiplyNutrition, normalizeNutrition, sumNutrition } from "@logd/db/nutrition";
 import { z } from "zod";
 import { getAuth } from "./auth";
-import { getDb, type Bindings } from "./db";
+import { activeDatabaseUrl, getDb, type Bindings } from "./db";
 import { newFoodSchema, newMealSchema, reportSchema } from "./validators";
 
 type AppEnv = { Bindings: Bindings; Variables: { userId: string } };
@@ -32,7 +32,7 @@ api.get("/", (c) => c.json({ name: "LOGD API", status: "online", version: "v1" }
 api.get("/health", (c) => c.json({ ok: true, service: "logd-api", version: "0.2.0" }));
 
 api.get("/health/ready", async (c) => {
-  if (!c.env.DATABASE_URL || !c.env.BETTER_AUTH_SECRET) {
+  if (!activeDatabaseUrl(c.env) || !c.env.BETTER_AUTH_SECRET) {
     return c.json({ ready: false }, 503);
   }
   try {
@@ -49,14 +49,14 @@ api.get("/health/ready", async (c) => {
 });
 
 api.all("/api/auth/*", (c) => {
-  if (!c.env.DATABASE_URL || !c.env.BETTER_AUTH_SECRET) {
+  if (!activeDatabaseUrl(c.env) || !c.env.BETTER_AUTH_SECRET) {
     return c.json({ error: { code: "SERVICE_NOT_CONFIGURED" } }, 503);
   }
   return getAuth(c.env).handler(c.req.raw);
 });
 
 api.use("/v1/*", async (c, next) => {
-  if (!c.env.DATABASE_URL || !c.env.BETTER_AUTH_SECRET) {
+  if (!activeDatabaseUrl(c.env) || !c.env.BETTER_AUTH_SECRET) {
     return c.json({ error: { code: "SERVICE_NOT_CONFIGURED" } }, 503);
   }
   const currentSession = await getAuth(c.env).api.getSession({

@@ -2,10 +2,10 @@ import { expo } from "@better-auth/expo";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import * as schema from "@logd/db/schema";
-import { getDb, type Bindings } from "./db";
+import { activeDatabaseUrl, getDb, type Bindings } from "./db";
 
 export function getAuth(env: Bindings) {
-  if (!env.BETTER_AUTH_SECRET || !env.DATABASE_URL) {
+  if (!env.BETTER_AUTH_SECRET || !activeDatabaseUrl(env)) {
     throw new Error("AUTH_NOT_CONFIGURED");
   }
 

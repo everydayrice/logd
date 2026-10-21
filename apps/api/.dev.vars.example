@@ -1,4 +1,5 @@
-DATABASE_URL=postgresql://USER:PASSWORD@HOST/neondb?sslmode=require
+DATABASE_URL_DEV=postgresql://USER:PASSWORD@HOST/neondb?sslmode=require
+# DATABASE_URL should be configured only in a separate production deployment.
 BETTER_AUTH_SECRET=replace-with-a-random-32-byte-minimum-secret
 BETTER_AUTH_URL=http://localhost:8787
 ALLOWED_WEB_ORIGINS=http://localhost:8081,http://localhost:19006

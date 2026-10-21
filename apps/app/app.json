@@ -7,10 +7,37 @@
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
-    "plugins": ["expo-router", ["expo-image-picker", {"photosPermission":"Allow LOGD to select photos for food logging.","cameraPermission":"Allow LOGD to take photos of meals."}], "expo-secure-store"],
-    "experiments": {"typedRoutes":true},
-    "ios": {"supportsTablet":true},
-    "android": {"edgeToEdgeEnabled":true},
-    "web": {"bundler":"metro","name":"LOGD","shortName":"LOGD"}
+    "plugins": [
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow LOGD to select photos for food logging.",
+          "cameraPermission": "Allow LOGD to take photos of meals."
+        }
+      ],
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ricehq.logd"
+    },
+    "android": {
+      "edgeToEdgeEnabled": true,
+      "package": "com.ricehq.logd"
+    },
+    "web": {
+      "bundler": "metro",
+      "name": "LOGD",
+      "shortName": "LOGD"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c73bfa58-9d9c-46c6-8fd8-a89feb48e74f"
+      }
+    }
   }
 }

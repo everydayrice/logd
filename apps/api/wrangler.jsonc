@@ -9,5 +9,8 @@
   },
   "compatibility_flags": [
     "nodejs_compat"
-  ]
+  ],
+  "vars": {
+    "APP_ENV": "development"
+  }
 }
