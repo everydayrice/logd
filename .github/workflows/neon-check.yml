@@ -1,0 +1,10 @@
+name: Neon check
+on:
+  push:
+    paths: ['.github/workflows/neon-check.yml']
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch readiness status
+        run: node -e "fetch('https://logd.ricecloud.workers.dev/health/ready').then(async r => {console.log(r.status, await r.text()); if (!r.ok) process.exitCode = 1;})"
