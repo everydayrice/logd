@@ -1,0 +1,25 @@
+name: Live API smoke test
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check API health
+        run: |
+          status=$(curl --max-time 20 -sS -o /tmp/health.json -w '%{http_code}' 'https://logd.ricecloud.workers.dev/health')
+          test "$status" = 200
+          grep -q 'logd-api' /tmp/health.json
+      - name: Check authentication readiness
+        run: |
+          status=$(curl --max-time 20 -sS -o /tmp/auth.json -w '%{http_code}' 'https://logd.ricecloud.workers.dev/api/auth/ok')
+          if [ "$status" != 200 ]; then
+            echo "Authentication health returned HTTP $status"
+            exit 1
+          fi
+      - name: Ensure unauthenticated data is private
+        run: |
+          status=$(curl --max-time 20 -sS -o /tmp/private.json -w '%{http_code}' 'https://logd.ricecloud.workers.dev/v1/meals')
+          test "$status" = 401
