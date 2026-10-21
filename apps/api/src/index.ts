@@ -36,10 +36,15 @@ api.get("/health/ready", async (c) => {
     return c.json({ ready: false }, 503);
   }
   try {
+    await getDb(c.env).execute(drizzleSql`SELECT 1`);
+  } catch {
+    return c.json({ ready: false, check: "connection" }, 503);
+  }
+  try {
     await getDb(c.env).select({ id: user.id }).from(user).limit(1);
     return c.json({ ready: true });
   } catch {
-    return c.json({ ready: false }, 503);
+    return c.json({ ready: false, check: "schema" }, 503);
   }
 });
 
