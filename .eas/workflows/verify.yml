@@ -1,0 +1,7 @@
+name: LOGD project check
+jobs:
+  native_fingerprint:
+    name: Android configuration fingerprint
+    type: fingerprint
+    params:
+      platform: android
