@@ -5,6 +5,10 @@ const email = `logd-e2e-${randomUUID()}@example.com`;
 const password = randomBytes(24).toString("hex");
 let cookies = "";
 
+const readiness = await fetch(base + "/health/ready");
+if (!readiness.ok) throw new Error("Database readiness is HTTP " + readiness.status);
+console.log("PASS: database connectivity");
+
 async function request(path, method = "GET", body, expectedStatus = 200) {
   const response = await fetch(base + path, {
     method,
