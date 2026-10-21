@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/e2e.yml'
+      - 'scripts/e2e.mjs'
   workflow_dispatch:
 jobs:
   exercise-api:
