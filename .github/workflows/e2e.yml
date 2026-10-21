@@ -1,0 +1,16 @@
+name: End-to-end LOGD test
+on:
+  push:
+    paths:
+      - '.github/workflows/e2e.yml'
+  workflow_dispatch:
+jobs:
+  exercise-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test signup and meal logging
+        run: node scripts/e2e.mjs
