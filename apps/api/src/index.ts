@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
 import { and, desc, eq, ilike, inArray, sql as drizzleSql } from "drizzle-orm";
-import { foods, foodReports, mealItems, meals, type NutritionFacts } from "@logd/db/schema";
+import { foods, foodReports, mealItems, meals, user, type NutritionFacts } from "@logd/db/schema";
 import { multiplyNutrition, normalizeNutrition, sumNutrition } from "@logd/db/nutrition";
 import { z } from "zod";
 import { getAuth } from "./auth";
@@ -30,6 +30,18 @@ api.use("*", cors({
 
 api.get("/", (c) => c.json({ name: "LOGD API", status: "online", version: "v1" }));
 api.get("/health", (c) => c.json({ ok: true, service: "logd-api", version: "0.2.0" }));
+
+api.get("/health/ready", async (c) => {
+  if (!c.env.DATABASE_URL || !c.env.BETTER_AUTH_SECRET) {
+    return c.json({ ready: false }, 503);
+  }
+  try {
+    await getDb(c.env).select({ id: user.id }).from(user).limit(1);
+    return c.json({ ready: true });
+  } catch {
+    return c.json({ ready: false }, 503);
+  }
+});
 
 api.all("/api/auth/*", (c) => {
   if (!c.env.DATABASE_URL || !c.env.BETTER_AUTH_SECRET) {
